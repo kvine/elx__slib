@@ -26,7 +26,7 @@ defmodule Game.Global do
     # -> [{id,integer}] | {:error,reason}
     def get_all_room_user_cnt() do 
         # vs_mode_ids=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
-        vs_mode_ids= Application.get_env(:game, :vs_mode_ids, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
+        vs_mode_ids= Application.get_env(:elx__slib, :vs_mode_ids, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
         Logger.info("vs_mode_ids=#{inspect vs_mode_ids}")
         List.foldr(vs_mode_ids,[],fn(x,acc)->
                         [get_room_user_cnt(x)|acc]
