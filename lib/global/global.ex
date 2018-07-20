@@ -3,7 +3,7 @@ defmodule Game.Global do
     @doc """
             全局模块
         """
-    @match_room_module "Elixir.Game.MatchRoom"
+    @match_room_module "Elixir.Game.Global.MatchRoom"
     
     # -> string 
     def get_match_room_name(vs_mode_id) do 
