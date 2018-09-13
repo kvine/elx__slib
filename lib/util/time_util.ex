@@ -108,6 +108,50 @@ def get_next_zero_time_info() do
     {span, now + span}
 end
 
+@doc """
+   get time string as "2018-09-13T12:41:09.799+08:00"
+"""
+@spec time_string() :: String.t()
+def time_string() do 
+  time_string(curr_mills())
+end
+
+@spec time_string(mills :: integer) :: String.t()
+def time_string(mills) do 
+  universal_time= mills_to_date(mills)
+  local_time= :erlang.universaltime_to_localtime(universal_time)
+  {{y,m,d},{hh,mm,ss}}= local_time
+
+  millis1 = rem(mills , 1000)
+  diff_secs= :calendar.datetime_to_gregorian_seconds(local_time) - 
+                :calendar.datetime_to_gregorian_seconds(universal_time)
+  zone = zone(diff_secs)
+  result = :io_lib.format("~4..0w-~2..0w-~2..0wT~2..0w:~2..0w:~2..0w.~3..0w~s",
+      [y, m, d, hh, mm, ss, millis1,zone])
+  :erlang.iolist_to_binary(result)
+end
+
+
+@spec zone(diff_secs :: integer) :: String.t()
+def zone(diff_secs) do 
+    cond do 
+      diff_secs == 0 -> "Z"
+      diff_secs > 0 -> zone(diff_secs,"+")
+      diff_secs < 0 -> zone(-diff_secs,"-")
+      true -> "Z"
+    end
+end
+
+@spec zone(abs_secs :: integer, sign :: String.t()) :: String.t()
+def zone(abs_secs,sign) do 
+  abs_mins= div(abs_secs,60)
+  h= div(abs_mins,60)
+  m= rem(abs_mins,60)
+  result= :io_lib.format("~s~2..0w:~2..0w", [sign, h, m])
+  :erlang.iolist_to_binary(result)
+end
+
+
   ### test ### 
   # timer=Time.Util.start_timer(10000,:test_timer)
   # Time.Util.get_timer_left_time(timer)
