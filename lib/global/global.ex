@@ -23,7 +23,7 @@ defmodule Game.Global do
     end
 
     # Game.Global.get_all_room_user_cnt()
-    # -> [{id,integer}] | {:error,reason}
+    # -> [{id,%{}}] | {:error,reason}
     def get_all_room_user_cnt() do 
         # vs_mode_ids=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
         vs_mode_ids= Application.get_env(:elx__slib, :vs_mode_ids, [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14])
@@ -34,18 +34,18 @@ defmodule Game.Global do
     end
 
     # Game.Global.get_room_user_cnt(0)
-    # -> [{id,integer}] | {:error,reason}
+    # -> [{id,%{}}]
     def get_room_user_cnt(id) do 
         room_pid= get_match_room_pid(id)
           case room_pid do 
             nil -> 
-                {id,0}
+                {id,%{}}
             _ -> 
                 try do 
                     {id,GenServer.call(room_pid,{:get_room_user_cnt})}
                 rescue
                     RuntimeError -> 
-                        {id,0}
+                        {id,%{}}
                 end
           end
     end
