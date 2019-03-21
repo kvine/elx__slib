@@ -23,6 +23,14 @@ defmodule Game.Global do
     end
 
     # Game.Global.get_all_room_user_cnt()
+    @doc """
+        [id,%{
+            total_cnt: num
+            playing_with_robot_cnt: num
+            wait_cnt: num
+            playing_with_user_cnt: num
+        }]
+    """
     # -> [{id,%{}}] | {:error,reason}
     def get_all_room_user_cnt() do 
         # vs_mode_ids=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
