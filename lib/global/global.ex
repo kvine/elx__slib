@@ -33,7 +33,7 @@ defmodule Game.Global do
                 try do 
                     {id,GenServer.call(room_pid,{:get_match_room_data})}
                 rescue
-                    RuntimeError -> 
+                    _ -> 
                         {id,%{}}
                 end
           end
