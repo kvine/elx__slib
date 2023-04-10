@@ -1,5 +1,10 @@
 defmodule Time.Util do
-  @type day_time :: {{integer, integer, integer}, {integer, integer, integer}}
+
+  def day_mills(), do: 86400_000 # 24 * 3600 * 1000
+  def hour_mills(), do: 3600_000 #3600*1000
+  def min_mills(), do: 60_000 #60 * 1000
+  
+
   @doc """
       get mills utc time
   """
